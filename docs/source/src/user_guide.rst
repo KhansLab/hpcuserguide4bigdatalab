@@ -1,12 +1,15 @@
-================================================
-USER GUIDE FOR BIG DATA & BIOINFORMATICS LAB HPC
-================================================
+=================================================
+User Guide for HPC in Big Data&Bioinformatics Lab 
+=================================================
 
 This guide is prepared to explain the steps needed to accomplish a simple analysis on the server. Please make sure you read everything carefully. If you still think you cannot handle the situation, ask for help from one of the team members (provided at the end of the document).
 
 This guide will cover 3 sections:
+
 1. How to connect to the server?
+
 2. How to upload or download your files?
+
 3. How to use SLURM to submit your job?
 
 -----------------------------
@@ -15,12 +18,12 @@ How to connect to the server?
 
 Connection to the server is achieved by using the Terminal (Command Prompt). The connection requires users to be using ``Bezmialem`` internet. If you are not connected to ``Bezmialem``, you need to use VPN in order to access the server. VPN requires BVU username and password, which you need to ask the university to provide you. If you do not know how, ask one of the team members.
 
-Check out the attached guide ``VPN Uzaktan Erişim Adımları`` to see how you can access, after you get your username and password. After you connect to Bezmialem or VPN, you need to open Terminal (Command Prompt) and write 
+Ask one of the team members for the ``VPN Uzaktan Erişim Adımları`` guide to see how you can access, after you get your username and password. After you connect to Bezmialem or VPN, you need to open Terminal (Command Prompt) and write 
 
 .. code-block:: bash
    :linenos:
 	
-	ssh username@10.100.9.30 
+   ssh username@10.100.9.30 
 
 
 To learn your usernames, ask one of the team members. 
@@ -28,7 +31,7 @@ To learn your usernames, ask one of the team members.
 If you connect for the first time, it will ask you for your Current Password, which is 1234. Then it will ask you to change the password to something else. If you forget your password, let us know.
 
 .. warning::
-	Once you connect, you will enter your home location, which is your user director. There, you can place files, use basic Unix commands, but you should avoid running any analysis directly there. To run analysis, the only command you will use is ``sbatch``, which is explained in section 3. Do not run any tools like Python or Gromacs! **Never!**
+	Once you connect, you will enter your home location, which is your user director. There, you can place files, use basic Unix commands, but you should avoid running any analysis directly there. To run analysis, the only command you will use is ``sbatch``, which is explained in section 1.3. Do not run any tools like Python or Gromacs! **Never!**
 
 You can check this useful link to learn how to use servers, in general `from here <https://datascienceguide.github.io/beginner-tutorial-how-to-get-started-with-data-science-using-servers>`_.
 
@@ -72,14 +75,14 @@ If you want to download a file from the server, you need to type
 
 Here are some useful links to understand ``ssh`` and ``sftp`` commands:
 
-1.`SSH <https://www.hostinger.com/tutorials/ssh/basic-ssh-commands>`_.
+`SSH <https://www.hostinger.com/tutorials/ssh/basic-ssh-commands>`_.
 
-2.`SFTP <https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server>`_.
+`SFTP <https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server>`_.
 
 
----------------------------------------
-3. How to use SLURM to submit your job?
----------------------------------------
+------------------------------------
+How to use SLURM to submit your job?
+------------------------------------
 
 To run analysis on the HPC, we use the SLURM job scheduler. This is carried out by executing a slurm instruction Shell script file, which will be provided to each user as an ``slurm_example.sh``. The user can directly customize the codes in the file suit their analysis needs. Below is a snapshot of the codes of the example file.
 
@@ -134,7 +137,7 @@ Assuming you have uploaded your files to your home directory ``user folder``, in
 .. code-block:: bash
    :linenos:
 	
-	sbatch slurm_example.sh
+   sbatch slurm_example.sh
 
 and your analysis will start. You can check the status of your analysis by writing ``squeue``.
 
@@ -143,7 +146,7 @@ When you are done with everything, you can type
 .. code-block:: bash
    :linenos:
 
-	exit 
+   exit 
 
 and disconnect from the server.
 
@@ -154,16 +157,18 @@ There are many resources on the web, do not be shy to check them out and learn m
 
 For example:
 
-1.`Compress and extract files <https://www.tecmint.com/18-tar-command-examples-in-linux/>`_.
+`Compress and extract files <https://www.tecmint.com/18-tar-command-examples-in-linux/>`_.
 
-2.`SLURM <https://slurm.schedmd.com/>`_.
+`SLURM <https://slurm.schedmd.com/>`_.
 
 -------------------------
 System Administrator Team
 -------------------------
 
 Esra Büşra Işık <ebisik@bezmialem.edu.tr> 
+
 Faruk Üstünel <faruk.ustunel@bezmialem.edu.tr>
+
 Muhammet Celik <mcelik@bezmialem.edu.tr>
 
 Big Data and Bioinformatics Lab, BILSAB, BVU, Turkey.
