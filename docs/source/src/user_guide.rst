@@ -238,9 +238,9 @@ Recommendations
 3. Please be courteous to the needs of others in terms of running your job to the server. We hope to implement a better job management system in the near future. Let’s be courteous to the needs of others and try to manage this on an ad-hoc basis for now.
 
 
--------------------------
+=========================
 System Administrator Team
--------------------------
+=========================
 
 Esra Büşra Işık <ebisik@bezmialem.edu.tr> 
 
