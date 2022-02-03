@@ -161,18 +161,6 @@ For example:
 
 `SLURM <https://slurm.schedmd.com/>`_.
 
--------------------------
-System Administrator Team
--------------------------
-
-Esra Büşra Işık <ebisik@bezmialem.edu.tr> 
-
-Faruk Üstünel <faruk.ustunel@bezmialem.edu.tr>
-
-Muhammet Celik <mcelik@bezmialem.edu.tr>
-
-Big Data and Bioinformatics Lab, BILSAB, BVU, Turkey.
-
 
 =========================================================
 User Guide for Workstation in Big Data&Bioinformatics Lab 
@@ -248,3 +236,16 @@ Recommendations
    Do bear in mind that the jobs of others may be running. If you plan to run a multi-core job, please discuss with the admin team. This is to ensure that your workflow will not disrupt or kill the job of others. Some jobs may have been running for days/weeks/months, so it is important that your submission will not directly or indirectly affect the work of others. If unsure, always check with the Admin team.
 
 3. Please be courteous to the needs of others in terms of running your job to the server. We hope to implement a better job management system in the near future. Let’s be courteous to the needs of others and try to manage this on an ad-hoc basis for now.
+
+
+-------------------------
+System Administrator Team
+-------------------------
+
+Esra Büşra Işık <ebisik@bezmialem.edu.tr> 
+
+Faruk Üstünel <faruk.ustunel@bezmialem.edu.tr>
+
+Muhammet Celik <mcelik@bezmialem.edu.tr>
+
+Big Data and Bioinformatics Lab, BILSAB, BVU, Turkey.
