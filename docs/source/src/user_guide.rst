@@ -31,7 +31,7 @@ To learn your usernames, ask one of the team members.
 If you connect for the first time, it will ask you for your Current Password, which is 1234. Then it will ask you to change the password to something else. If you forget your password, let us know.
 
 .. warning::
-	Once you connect, you will enter your home location, which is your user director. There, you can place files, use basic Unix commands, but you should avoid running any analysis directly there. To run analysis, the only command you will use is ``sbatch``, which is explained in section 1.3. Do not run any tools like Python or Gromacs! **Never!**
+	Once you connect, you will enter your home location, which is your user directory. There, you can place files, use basic Unix commands, but you should avoid running any analysis directly there. To run analysis, the only command you will use is ``sbatch``, which is explained in section 1.3. Do not run any tools like Python or Gromacs! **Never!**
 
 You can check this useful link to learn how to use servers, in general `from here <https://datascienceguide.github.io/beginner-tutorial-how-to-get-started-with-data-science-using-servers>`_.
 
@@ -172,3 +172,79 @@ Faruk Üstünel <faruk.ustunel@bezmialem.edu.tr>
 Muhammet Celik <mcelik@bezmialem.edu.tr>
 
 Big Data and Bioinformatics Lab, BILSAB, BVU, Turkey.
+
+
+=========================================================
+User Guide for Workstation in Big Data&Bioinformatics Lab 
+=========================================================
+
+
+---------------------------------
+How to access the desktop server?
+---------------------------------
+
+
+1. The login password to access the desktop is ``1988``. 
+
+2. To access and use the tools and libraries installed on WSL (Windows Subsystem for Linux), one can:
+
+ 2.1. Click on the search tab, type Command Prompt and type ``wsl``.
+ 2.2. Click run (start symbol + R), type ``wsl`` and run.
+
+3. Wsl terminal will prompt the default user which is the ``guest``. The first thing to do after running the wsl is to change the user to your account. Everyone in the lab has their own username. If it is not, inform the Administrator Team. To change to your user account, type:
+
+.. code-block:: bash
+   :linenos:
+   
+   su - <your username>
+
+You will be prompted to enter a password (default password is 1234). If you have not changed the default password for your account yet, once you have logged into your account, please change your password by typing the following and follow the instructions:
+
+.. code-block:: bash
+   :linenos:
+
+   passwd
+
+4. From your account, you can use the tools that are already installed on the WSL. To see the list of tools, see section 2.
+
+5. To save files from WSL to the computer (you should save it to your folder in D), type;
+
+.. code-block:: bash
+   :linenos:
+
+   cp "filename" /mnt/d/"username"
+
+6. For remote access to the desktop server, you can use Microsoft Remote Desktop (both Windows and Mac). You need IP address, username, and password in order to access to the computer. For these information, please inform one of the team members.
+
+--------------------
+Some rules to follow
+--------------------
+
+1. Please do not download anything under C:\Windows. If the Windows directory gets corrupted, we will need to format the whole system and set up everything again, which is going to be a lot of work and may disrupt the work of others. 
+
+2. The downloaded files will be located at ``C:\Users\bvukh\Downloads`` if you use chrome. After downloading your file, please move it to the drive that has been designated as a user storage (D:). The ``C:\Users\bvukh\Downloads`` will be cleared from time to time. So, make sure you have moved your file to your user folder in the D drive.
+
+3. Most tools and libraries are already installed. When you want something to be installed, please check the ``installed_libs.txt`` and ``installed tools on wsl`` files, which can be found on the desktop. In case the tool or library you want is not installed, you can let one of the team members know.
+
+4. Please clear the ``Recycle Bin`` when you are done.
+
+5. Please do not save your files on the desktop. They will be deleted if found.
+
+---------------
+Recommendations
+---------------
+
+1. Some websites can’t be reached through the Bezmialem internet. In such a case, let one of the team members know.
+
+2. Please aim to fully utilise the threads/cores of the CPU within your allocation. You can check the status of the threads by typing the following to the command line:
+
+.. code-block:: bash
+   :linenos:
+    
+   htop
+
+.. warning::
+
+   Do bear in mind that the jobs of others may be running. If you plan to run a multi-core job, please discuss with the admin team. This is to ensure that your workflow will not disrupt or kill the job of others. Some jobs may have been running for days/weeks/months, so it is important that your submission will not directly or indirectly affect the work of others. If unsure, always check with the Admin team.
+
+3. Please be courteous to the needs of others in terms of running your job to the server. We hope to implement a better job management system in the near future. Let’s be courteous to the needs of others and try to manage this on an ad-hoc basis for now.
