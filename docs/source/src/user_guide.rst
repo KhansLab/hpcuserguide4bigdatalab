@@ -86,19 +86,175 @@ How to use SLURM to submit your job?
 
 To run analysis on the HPC, we use the SLURM job scheduler. This is carried out by executing a slurm instruction Shell script file, which will be provided to each user as an ``slurm_example.sh``. The user can directly customize the codes in the file suit their analysis needs. Below is a snapshot of the codes of the example file.
 
+General Note: Do take note that the Slurm (job scheduler) scripts below are just an allocation instruction to the server, and your job may not take full advantage of the allocation if the settings of your tool are not aligned or in agreement with the server allocation through Slurm.
+
 .. code-block:: bash
    :linenos:
 
+   #If your tool does not utilize multithreading, such as muscle / or your own python script, use below.
+   #Please do not change the value for "--nodes"
+   
    #!/bin/bash
-   #SBATCH --job-name=esra_blastdb_trial
-   #SBATCH --output=esra_blastdb_trial.out
-   #SBATCH --nodelist=compute1
-   #SBATCH --ntasks=1
-   #SBATCH --time=1:00:00
-   #SBATCH --mem-per-cpu=100
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
+   
+   srun command
+   
+   #Template: 2
+   #If your tool utilizes multithreading, such as CD-HIT and STAR aligner, among others.
+   #Please do not change the value for the "--nodes" and the "--cpus-per-task".
+   #You may change the time limit.
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
+   #SBATCH --cpus-per-task=20
+   #SBATCH -t 23:00:00 #time limit
+   
+   srun command
+   
+   #Template: 3
+   #If your tool utilizes multiprocessing without multithreading
+   #Please do not change the value for the "--nodes" and the "--ntasks"
+   #You may change the time limit.
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
+   #SBATCH --ntasks=20
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   srun command
+   
+   #Template: 4
+   #If your tool utilizes multiprocessing along with multithreading, you can adapt the params as long as
+   #The value for "--ntasks" multipled (*) with "--cpus-per-task" is not greater than 20.
+   #You may change the time limit.
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
+   #SBATCH --cpus-per-task=4
+   #SBATCH --ntasks=5
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   srun command
+   
+   #Template: 5
+   #This is for GPU usage.
+   #The values for "--nodes" and "--cpus-per-gpu" should not be changed.
+   #You may change the time limit.
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
+   #SBATCH --cpus-per-gpu=2
+   #SBATCH --gres=gpu:1
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   srun command
+   
+   #Template: 6
+   #This is for GPU usage.
+   #If your tool is able to utilize multiprocessing on a single GPU. 
+   #You can change the "--ntasks" as per the guideline of your tool. Ensure that there is no conflict between the #internal settings of the tool and the instruction sent to    Slurm.   
+   #Do th   is with care as you might overload the #GPU and your job will be terminated.   
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
+   #SBATCH --cpus-per-task=1
+   #SBATCH --ntasks=20
+   #SBATCH --gres=gpu:1
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   srun command
+   
+   #Template: 7
+   #This is for GPU usage.
+   #If your tool is able to do multiprocessing and you want to utilize GPUs on the two nodes (GPU 1 and GPU 2).
+   #Make sure your tool can run on two GPUs on different nodes.  
+   #Do not change any of the settings below, except time limit.
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=2
+   #SBATCH --cpus-per-gpu=3
+   #SBATCH --gpus-per-node=1
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   srun command
+   
+   #Template: 8
+   #Needs Permission! 
+   #If you need the whole node with multithreading.
+   #Do not change any of the settings below, except time limit.
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
    #SBATCH --ntasks-per-node=1
+   #SBATCH --cpus-per-task=100
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   #Template: 9
+   #Needs Permission! 
+   #If you need two nodes with multiprocessing. 
+   #If one node is enough, just adjust --nodes=2 to --nodes=1
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=2
+   #SBATCH --ntasks-per-node=100
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   #Template: 10
+   #Needs Permission! 
+   #If you need two nodes with high cpu power (multiprocessing coupled with multithreading), use below.
+   #NOTE: if your tool is not capable of doing multiprocessing, this won't work. Then you can only go with 1 #node.
+   #Multithreading != multiprocessing. For example: "muscle -super5" is able to do multithreading, but not #multiprocessing.
+   #In contrast, MAGUS is able to do both multiprocessing and multithreading. 
+   #In bioinformatics, it is rare to find multiprocessing tools.
+   #You may modify the settings to better maximise your tool's capability, but do it with care.
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=2
+   #SBATCH --ntasks-per-node=1
+   #SBATCH --cpus-per-task=100
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   #Template: 11
+   #This is for GROMACS (on GPU node)
+   #Since you are going to use the GROMACS tool, please add an additional line to call #the GROMACS software that #has been installed on the server for global use (any user). 
+   #The line to add is: "source /home/software/gromacsGPU/bin/GMXRC" (without quotes) before srun.
+   #You can adjust "--cpus-per-task", but do it with care. 
+   #You may also change the time limit. 
+   
+   #!/bin/bash
+   #SBATCH --job-name=<NameOfYourJob>
+   #SBATCH --output=<StdoutOfYourJob>
+   #SBATCH --nodes=1
+   #SBATCH --cpus-per-task=2
+   #SBATCH --gres=gpu:1
+   #SBATCH --time=2-00:00:00 #time limit
+   
+   source /home/software/gromacsGPU/bin/GMXRC
+   
+   srun gmx_mpi grompp -f mdPL.mdp -c npt_prsa_cat.gro -t npt_prsa_cat.cpt -p topol.top -n index_prsa_cat.ndx -o md.tpr -maxwarn 3
+   
+   srun gmx_mpi mdrun -s md.tpr -deffnm md_prsa_cat2 -nb gpu
 
-   srun blastp -query sequences.fasta -db HMN -out all_results_for_sequences_PAM30.txt
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 About the “#SBATCH” section
@@ -236,6 +392,28 @@ Recommendations
    Do bear in mind that the jobs of others may be running. If you plan to run a multi-core job, please discuss with the admin team. This is to ensure that your workflow will not disrupt or kill the job of others. Some jobs may have been running for days/weeks/months, so it is important that your submission will not directly or indirectly affect the work of others. If unsure, always check with the Admin team.
 
 3. Please be courteous to the needs of others in terms of running your job to the server. We hope to implement a better job management system in the near future. Let’s be courteous to the needs of others and try to manage this on an ad-hoc basis for now.
+
+
+---------------
+FAQs
+---------------
+
+
+Q1. What to do to find out if your tool supports multi-threading (same CPU)?
+
+A1. Take template 4, make a small test dataset, and change "--cpus-per-task" to "20" and "ntasks" to "1". Take note of the runtime. Then repeat with the same dataset with the default template 4, as below. You may need to adapt the parameters within the tool. Sometimes it is automatic and sometime, no. If you notice that your job was completed faster with the higher "cpus-per-task" then it means your tool supports multi-threading. 
+
+#!/bin/bash
+#SBATCH --job-name=<NameOfYourJob>
+#SBATCH --output=<StdoutOfYourJob>
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=4
+#SBATCH --ntasks=5
+#SBATCH --time=2-00:00:00 #time limit
+
+Q2. What to do to find out if your tool supports multi-processing (different CPUs, say on different nodes)? 
+
+A2. It would be easier if you check the documentation of the tool or ask the author of the tool. 
 
 
 =========================
