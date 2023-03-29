@@ -318,6 +318,94 @@ For example:
 `SLURM <https://slurm.schedmd.com/>`_.
 
 
+--------------------------------------
+How to use PBS PRO to submit your job?
+--------------------------------------
+
+PBS Pro is a workload management system that allows users to submit and manage jobs on a cluster or supercomputer. Here are the basic steps to use PBS Pro for job submission:
+
+^^^^^^^^^^^^^^^^^
+Connect to server
+^^^^^^^^^^^^^^^^^
+
+First, you need to connect to the server using SSH. You will need the IP address of the server which is 10.100.9.30, as well as your username and password to log in.
+
+^^^^^^^^^^^^^^^^^^^^^^^
+Prepare your job script
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Create a script file that contains the commands and parameters that you want to run on the cluster. The script should start with the shebang line (#!/bin/bash or #!/bin/sh) and any necessary environment variables or module loads. After that, you should specify the PBS directives that define the resource requirements for your job, such as the number of nodes, processors, memory, runtime, etc. Finally, you should include the actual commands that you want to run in the script.
+
+Here is an example of job script.
+
+.. code-block:: bash
+   :linenos:
+
+   #!/bin/bash
+
+   #PBS -N my_job_name
+   #PBS -l nodes=2:ppn=4
+   #PBS -l walltime=00:10:00
+   #PBS -o /path/to/stdout
+   #PBS -e /path/to/stderr
+   #PBS -q my_queue
+
+   # Load any necessary modules
+   module load my_module
+
+   # Change to the directory where the job will be executed
+   cd /path/to/working/directory
+
+   # Run the command(s) you want to execute
+   ./my_program input_file output_file
+
+   # End of job script
+
+
+In this example, the first line (#!/bin/bash) is a shebang line that specifies the shell that will be used to run the commands in the script.
+
+The PBS directives start with #PBS and specify various job parameters, such as the job name (-N), the number of nodes and processors required (-l nodes=2:ppn=4), the maximum wall time the job can run for (-l walltime=00:10:00), the path to the standard output (-o /path/to/stdout), the path to the standard error (-e /path/to/stderr), and the queue name (-q my_queue).
+
+After the PBS directives, any necessary modules are loaded using the module load command. Then the working directory is changed using the cd command to the directory where the job will be executed.
+
+Finally, the command to be executed is specified using the ./my_program input_file output_file command. This command will run my_program with input_file as input and output_file as output.
+
+Once all of the necessary commands have been specified in the job_script.sh file, it can be submitted to the server.
+
+.. important::
+   1. Each user is able to submit jobs and utilize 32 CPUs maximum.
+
+   2. The queues are divided to 3 categories:
+
+      - ShortQ: Highest Priority, maximum 4 hours walltime
+      - MedQ: Medium Priority, maximum 48 hours walltime
+      - LongQ: Lowest Priority, maximum 336 hrs walltime
+
+   If you do not specify walltime, it will go to ShortQ.
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Submit your job to the queue
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To submit your job to the queue, you need to use the qsub command followed by the name of your job script:
+
+.. code-block:: bash
+   :linenos:
+
+   qsub job_script.sh
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Check the status of your job
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can check the status of your job using the qstat command:
+
+.. code-block:: bash
+   :linenos:
+
+   qstat
+
 =========================================================
 User Guide for Workstation in Big Data&Bioinformatics Lab 
 =========================================================
